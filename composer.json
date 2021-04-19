@@ -4,7 +4,13 @@
             "App\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
     "require": {
+        "php": "8.0.*",
         "symfony/flex": "^1.12",
         "symfony/console": "^5.2",
         "symfony/framework-bundle": "^5.2",
@@ -16,5 +22,8 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         }
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^5.2"
     }
 }
