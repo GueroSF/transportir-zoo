@@ -12,7 +12,5 @@ interface SpaceInterface
 
     public function add(CreatureOfGodInterface $creature): bool;
 
-    public function moveTo(SpaceInterface $space): void;
-
     public function isEmpty(): bool;
 }
