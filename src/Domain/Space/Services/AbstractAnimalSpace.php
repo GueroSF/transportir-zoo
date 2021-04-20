@@ -10,12 +10,10 @@ use App\Domain\Space\Interfaces\SpaceInterface;
 
 abstract class AbstractAnimalSpace implements SpaceInterface
 {
-    private int $size;
     private \SplFixedArray $holder;
 
     public function __construct(int $size)
     {
-        $this->size = $size;
         $this->holder = new \SplFixedArray($size);
     }
 
@@ -30,35 +28,23 @@ abstract class AbstractAnimalSpace implements SpaceInterface
             );
         }
 
-        $count = $this->holder->count();
-        if ($count > $this->size) {
+        $count = $this->countNotEmptyCell();
+        if ($count >= $this->holder->getSize()) {
             return false;
         }
 
-        $this->holder[++$count] = $animal;
+        $this->holder[$count] = $animal;
 
         return true;
     }
 
-    public function moveTo(SpaceInterface $space): void
-    {
-        if (!$space instanceof static) {
-            throw new SpaceException(
-                sprintf(
-                    'Expected space for %s, given %s',
-                    static::class,
-                    $space::class
-                )
-            );
-        }
-
-        foreach ($this->holder->toArray() as $animal) {
-            $space->add($animal);
-        }
-    }
-
     public function isEmpty(): bool
     {
-        return $this->holder->count() === 0;
+        return $this->countNotEmptyCell() === 0;
+    }
+
+    private function countNotEmptyCell(): int
+    {
+        return count(array_filter((array)$this->holder, fn($cell) => null !== $cell));
     }
 }
