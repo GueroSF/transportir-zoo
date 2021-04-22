@@ -23,9 +23,9 @@ class AnimalFactory
     ];
 
     /**
-     * @return AnimalInterface[]
+     * @return \SplFixedArray<AnimalInterface>
      */
-    public function create(string $animal, int $count = 1): array
+    public function create(string $animal, int $count = 1): \SplFixedArray
     {
         $class = match ($animal) {
             self::ALLIGATOR => Alligator::class,
@@ -40,6 +40,12 @@ class AnimalFactory
             );
         }
 
-        return array_fill(0, $count, new $class);
+        $ark = new \SplFixedArray($count);
+
+        foreach ($ark as $index => $item) {
+            $ark[$index] = new $class;
+        }
+
+        return $ark;
     }
 }
